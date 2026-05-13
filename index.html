@@ -85,12 +85,20 @@
 
 .reel-item iframe {
     position: absolute;
+
     top: 50%;
     left: 50%;
-    width: 180%;
-    height: 180%;
+
+    width: 100vw;
+    height: 56.25vw;
+
+    min-width: 100%;
+    min-height: 100%;
+
     transform: translate(-50%, -50%);
+
     pointer-events: none;
+    border: none;
 }
 
 .reel-item:hover {
@@ -149,7 +157,7 @@
          <div class="reel-item">
 
     <iframe
-        src="https://www.youtube.com/embed/aPGvK6tJMXk?si=r9z7_IoutsITGclk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"
+        src="https://www.youtube.com/embed/aPGvK6tJMXk?si=r9z7_IoutsITGclk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>"
         title="YouTube video player"
         frameborder="0"
         allow="autoplay; encrypted-media"
