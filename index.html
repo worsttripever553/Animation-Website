@@ -86,34 +86,47 @@
 
     transition: var(--transition);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    cursor: pointer;
 }
 
-.reel-item iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
 .reel-item:hover {
-    border-color: var(--neon-blue);
     transform: scale(1.02);
-    box-shadow: 0 0 40px rgba(0,242,255,0.15);
+    border-color: var(--neon-blue);
+
+    box-shadow: 0 0 40px rgba(0,242,255,0.2);
+}
+
+.preview-video {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 177.77%;
+    height: 100%;
+
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
+    border: none;
 }
 
 .reel-overlay {
     position: absolute;
     inset: 0;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+
     padding: 40px;
+
     background: linear-gradient(
         to bottom,
         rgba(0,0,0,0.1),
-        rgba(0,0,0,0.8)
+        rgba(0,0,0,0.85)
     );
+
     z-index: 2;
 }
 
@@ -149,13 +162,18 @@
     <div class="carousel-wrapper">
         <div class="reel-container" id="reel">
             
-         <div class="reel-item">
+         
+         
+         
+         
+   <div class="reel-item"
+     data-video="https://www.youtube.com/embed/3ky1_G6aTRM">
 
     <iframe
-        src="https://www.youtube.com/embed/aPGvK6tJMXk?si=r9z7_IoutsITGclk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>"
-        title="YouTube video player"
+        class="preview-video"
+        src="https://www.youtube.com/embed/3ky1_G6aTRM?autoplay=1&mute=1&controls=0&loop=1&playlist=3ky1_G6aTRM"
         frameborder="0"
-        allow="autoplay; encrypted-media"
+        allow="autoplay"
         allowfullscreen>
     </iframe>
 
@@ -165,7 +183,6 @@
     </div>
 
 </div>
-
 
 <div class="reel-item">
 
@@ -272,7 +289,23 @@
     </div>
 </div>
 
+<div id="video-modal">
 
+    <div class="modal-player">
+
+        <button id="close-modal">×</button>
+
+        <iframe
+            id="modal-video"
+            src=""
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
+</div>
 
     <script>
         function switchView(viewId) {
