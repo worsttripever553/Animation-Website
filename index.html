@@ -195,6 +195,35 @@
     cursor: pointer;
 
     z-index: 10000;
+
+    .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-size: 2rem;
+    padding: 20px 10px;
+    cursor: pointer;
+    z-index: 10001;
+    transition: var(--transition);
+}
+
+.nav-btn:hover {
+    background: var(--neon-blue);
+    color: black;
+    box-shadow: 0 0 20px var(--neon-blue);
+}
+
+.prev { left: -60px; }
+.next { right: -60px; }
+
+/* Responsive fix: bring buttons inside on small screens */
+@media (max-width: 768px) {
+    .prev { left: 10px; }
+    .next { right: 10px; }
+}
 }
         /* --- MODAL --- */
 
@@ -219,7 +248,7 @@
     <!-- HUB -->
     <section id="home" class="view active">
     
-    <h1>Making Bad Days<br><span style="color:var(--neon-blue)">Better</span></h1>
+    <h1>Everything<br><span style="color:var(--neon-blue)">Animated.</span></h1>
     
     <div class="carousel-wrapper">
         <div class="reel-container" id="reel">
@@ -344,10 +373,12 @@
 
     
 <div id="video-modal">
-
     <div class="modal-player">
-
         <button id="close-modal">×</button>
+        
+        <!-- Navigation Buttons -->
+        <button id="prev-video" class="nav-btn prev">⟪</button>
+        <button id="next-video" class="nav-btn next">⟫</button>
 
         <iframe
             id="modal-video"
@@ -356,9 +387,7 @@
             allow="autoplay; encrypted-media"
             allowfullscreen>
         </iframe>
-
     </div>
-
 </div>
 
     <script>
@@ -447,46 +476,65 @@
         reel.addEventListener('mouseup', () => isDown = false);
         reel.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - reel.offsetLeft; reel.scrollLeft = scrollLeft - (x - startX) * 2; });
         // --- TRAILER MODAL ---
+// --- MODAL WITH NEXT/PREV NAVIGATION ---
 const modal = document.getElementById('video-modal');
-
 const modalVideo = document.getElementById('modal-video');
-
 const closeModal = document.getElementById('close-modal');
+const nextBtn = document.getElementById('next-video');
+const prevBtn = document.getElementById('prev-video');
 
-document.querySelectorAll('.reel-item').forEach(item => {
+// 1. Capture all video URLs and elements
+const videoElements = document.querySelectorAll('.reel-item');
+const videoList = Array.from(videoElements).map(item => item.dataset.video);
+let currentIndex = 0;
 
+function updateModalVideo(index) {
+    // Wrap-around logic
+    if (index >= videoList.length) index = 0;
+    if (index < 0) index = videoList.length - 1;
+    
+    currentIndex = index;
+    const videoUrl = videoList[currentIndex];
+    
+    // Set source with autoplay and no mute (so user hears the switch)
+    modalVideo.src = videoUrl + "?autoplay=1&controls=1&mute=0";
+}
+
+// Initial open from carousel
+videoElements.forEach((item, index) => {
     item.addEventListener('click', () => {
-
-        const video = item.dataset.video;
-
-        modalVideo.src = video + "?autoplay=1&controls=1";
-
+        updateModalVideo(index);
         modal.classList.add('active');
-
     });
-
 });
 
+// Button click events
+nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    updateModalVideo(currentIndex + 1);
+});
+
+prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateModalVideo(currentIndex - 1);
+});
+
+// Close triggers
 closeModal.addEventListener('click', () => {
-
     modal.classList.remove('active');
-
     modalVideo.src = '';
-
 });
 
 window.addEventListener('keydown', (e) => {
-
+    if (!modal.classList.contains('active')) return;
+    
+    if (e.key === 'ArrowRight') updateModalVideo(currentIndex + 1);
+    if (e.key === 'ArrowLeft') updateModalVideo(currentIndex - 1);
     if (e.key === 'Escape') {
-
         modal.classList.remove('active');
-
         modalVideo.src = '';
-
     }
-
 });
-
     </script>
 
 
