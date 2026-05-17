@@ -163,11 +163,101 @@
         .prev { left: 10px; }
         .next { right: 10px; }
 
-        @media (max-width: 768px) {
-            .modal-player { width: 100%; height: 60%; }
-            .nav-btn { padding: 15px 10px; font-size: 1.5rem; }
+        /* MOBILE STYLES */
+@media (max-width: 768px) {
 
-            footer {
+    nav {
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 80px;
+        right: 0;
+        width: 100%;
+
+        background: rgba(0,0,0,0.98);
+        backdrop-filter: blur(20px);
+
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+
+        max-height: 0;
+        overflow: hidden;
+
+        transition: max-height 0.4s ease;
+
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links.open {
+        max-height: 400px;
+    }
+
+    .nav-item {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        font-size: 0.7rem;
+    }
+
+    .modal-player {
+        width: 100%;
+        height: 60%;
+    }
+
+    .nav-btn {
+        padding: 15px 10px;
+        font-size: 1.5rem;
+    }
+
+    .reel-item {
+        flex: 0 0 90vw;
+        height: 60vw;
+    }
+
+    .reel-overlay {
+        padding: 20px;
+    }
+
+    .reel-overlay h2 {
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        line-height: 1;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* HAMBURGER BUTTON */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--neon-blue);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2000;
+}
+
+/* FOOTER */
+footer {
     width: 100%;
     text-align: center;
     padding: 40px 0;
@@ -178,7 +268,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     margin-top: 50px;
 }
-        } MODAL --- */
+         MODAL --- */
 
 
     </style>
@@ -188,16 +278,24 @@
     <canvas id="bg-canvas"></canvas>
     <div class="noise-overlay"></div>
 
-    <nav>
-        <div class="logo" onclick="switchView('home')">Worst Trip Ever</div>
-        <div class="nav-links">
-            <button class="nav-item active" onclick="switchView('home')">Home</button>
-            <button class="nav-item" onclick="switchView('tv')">TV</button>
-            <button class="nav-item" onclick="switchView('film')">FILM</button>
-            <button class="nav-item" onclick="switchView('logs')">Reviews</button>
-        </div>
-    </nav>
+    <nav> 
+    <div class="logo" onclick="switchView('home')">
+        Worst Trip Ever
+    </div>
 
+    <!-- MOBILE HAMBURGER -->
+    <button class="menu-toggle" id="menu-toggle">
+        ☰
+    </button>
+
+    <!-- NAVIGATION LINKS -->
+    <div class="nav-links" id="mobile-nav">
+        <button class="nav-item active" onclick="switchView('home')">Home</button>
+        <button class="nav-item" onclick="switchView('tv')">TV</button>
+        <button class="nav-item" onclick="switchView('film')">FILM</button>
+        <button class="nav-item" onclick="switchView('logs')">Reviews</button>
+    </div>
+</nav>
     <!-- HUB -->
     <section id="home" class="view active">
     
