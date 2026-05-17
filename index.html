@@ -151,6 +151,7 @@
             z-index: 10001;
             transition: var(--transition);
             backdrop-filter: blur(5px);
+            opacity: 1;
         }
 
         .nav-btn:hover {
@@ -434,6 +435,7 @@ const modalVideo = document.getElementById('modal-video');
 const closeModal = document.getElementById('close-modal');
 const nextBtn = document.getElementById('next-video');
 const prevBtn = document.getElementById('prev-video');
+let navTimeout;
 
 // 1. Capture all video URLs and elements
 const videoElements = document.querySelectorAll('.reel-item');
@@ -452,13 +454,33 @@ function updateModalVideo(index) {
     modalVideo.src = videoUrl + "?autoplay=1&controls=1&mute=0";
 }
 
+function showNavButtons() {
+    nextBtn.style.opacity = '1';
+    prevBtn.style.opacity = '1';
+    nextBtn.style.pointerEvents = 'auto';
+    prevBtn.style.pointerEvents = 'auto';
+
+    clearTimeout(navTimeout);
+
+    navTimeout = setTimeout(() => {
+        nextBtn.style.opacity = '0';
+        prevBtn.style.opacity = '0';
+        nextBtn.style.pointerEvents = 'none';
+        prevBtn.style.pointerEvents = 'none';
+    }, 10000); // 10 seconds
+}
+
 // Initial open from carousel
 videoElements.forEach((item, index) => {
-    item.addEventListener('click', () => {
-        updateModalVideo(index);
-        modal.classList.add('active');
-    });
+   item.addEventListener('click', () => {
+    updateModalVideo(index);
+    modal.classList.add('active');
+    showNavButtons();
 });
+});
+
+
+
 
 // Button click events
 nextBtn.addEventListener('click', (e) => {
@@ -487,6 +509,16 @@ window.addEventListener('keydown', (e) => {
         modalVideo.src = '';
     }
 });
+modal.addEventListener('mousemove', showNavButtons);
+modal.addEventListener('click', showNavButtons);
+
+window.addEventListener('keydown', () => {
+    if (modal.classList.contains('active')) {
+        showNavButtons();
+    }
+});
+
+
     </script>
 
 
