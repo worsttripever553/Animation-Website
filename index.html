@@ -268,7 +268,7 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     margin-top: 50px;
 }
-         MODAL --- */
+       
 
 
     </style>
@@ -443,16 +443,26 @@ footer {
 
     <script>
         function switchView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-                if(item.innerText.toLowerCase() === viewId) item.classList.add('active');
-                if(viewId === 'home' && item.innerText === 'HUB') item.classList.add('active');
-            });
-            window.scrollTo(0, 0);
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+
+        if(item.innerText.toLowerCase() === viewId) {
+            item.classList.add('active');
         }
 
+        if(viewId === 'home' && item.innerText === 'Home') {
+            item.classList.add('active');
+        }
+    });
+
+    window.scrollTo(0, 0);
+
+    // CLOSE MOBILE MENU
+    mobileNav.classList.remove('open');
+}
         // --- BRIGHTENED KINETIC BACKGROUND ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
@@ -616,7 +626,13 @@ window.addEventListener('keydown', () => {
     }
 });
 
+// MOBILE MENU TOGGLE
+const menuToggle = document.getElementById('menu-toggle');
+const mobileNav = document.getElementById('mobile-nav');
 
+menuToggle.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+});
     </script>
 
 
